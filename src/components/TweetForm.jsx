@@ -22,13 +22,19 @@ class TweetForm extends React.Component {
     return (
       <Form>
         <Form.Group controlId="formBasicEmail" className="tweet-form">
-          <div className="main-content">
-            <textarea
-              placeholder="What's on your mind..."
-              onChange={(event) => {
-                this.handleUserTypingTweet(event);
-              }}
-            ></textarea>
+          <textarea
+            placeholder="What's on your mind..."
+            onChange={(event) => {
+              this.handleUserTypingTweet(event);
+            }}
+          ></textarea>
+          <div className="alert-and-button-container">
+            {displayAlert && (
+              <Alert variant="danger">
+                Tweet can't be more than 140 characters
+              </Alert>
+            )}
+
             {!displayAlert && (
               <Button variant="primary" type="submit">
                 Tweet
@@ -40,11 +46,6 @@ class TweetForm extends React.Component {
               </Button>
             )}
           </div>
-          {displayAlert && (
-            <Alert variant="danger">
-              Tweet can't be more than 140 characters
-            </Alert>
-          )}
         </Form.Group>
       </Form>
     );

@@ -7,10 +7,7 @@
   width: var(--tweet-container-width);
   height: 180px;
 }
-.tweet-form .main-content {
-  display: flex;
-  width: 100%;
-}
+
 .tweet-form textarea {
   /* Tell the input to use all the available space */
   flex-grow: 2;
@@ -21,22 +18,25 @@
   background-color: var(--background-color);
   color: white;
 }
+.tweet-form textarea:focus {
+  /* removing the input focus blue box. Put this on the form if you like. */
+  outline: none;
+}
 
 .tweet-form ::placeholder {
   color: white;
   opacity: 0.7;
 }
 
-.tweet-form textarea:focus {
-  /* removing the input focus blue box. Put this on the form if you like. */
-  outline: none;
+.tweet-form .alert-and-button-container {
+  display: flex;
+  width: 100%;
 }
-
 .tweet-form button {
   height: 40px;
-  align-self: flex-end;
+  margin-left: auto;
 }
 .tweet-form .alert {
-  align-self: flex-start;
-  margin-top: auto;
+  padding: 5px;
+  margin: 0;
 }
