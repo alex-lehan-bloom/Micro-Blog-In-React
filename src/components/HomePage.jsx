@@ -11,18 +11,12 @@ class HomePage extends React.Component {
 
   componentDidMount() {
     this.refreshData();
-    // let tweets = getTweets();
-    // this.setState({ previousTweets: tweets });
   }
 
   refreshData() {
     let previousTweets = JSON.parse(localStorage.getItem("tweets") || "[]");
     this.setState({ previousTweets });
   }
-  //   componentDidUpdate() {
-  //     localStorage.setItem("contacts", "value");
-  //     console.log(localStorage.getItem("contacts"));
-  //   }
 
   render() {
     let { previousTweets } = this.state;
@@ -30,7 +24,7 @@ class HomePage extends React.Component {
       <>
         <TweetForm
           newTweetAdded={() => {
-            this.newData();
+            this.refreshData();
           }}
         ></TweetForm>
         <ul className="all-user-tweets">

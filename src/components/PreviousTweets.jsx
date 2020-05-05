@@ -3,7 +3,16 @@ import "../css/PreviousTweets.css";
 
 function PreviousTweets(props) {
   let { tweets } = props;
+  tweets.sort(function (a, b) {
+    const keyA = new Date(a.date);
+    const keyB = new Date(b.date);
+    if (keyA < keyB) return 1;
+    if (keyA > keyB) return -1;
+    return 0;
+  });
+
   let tweets_to_display = [];
+
   tweets.map((tweet, index) => {
     tweets_to_display.push(
       <div className="previous-tweet" key={index}>
