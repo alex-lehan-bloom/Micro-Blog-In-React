@@ -1,25 +1,24 @@
 import React from "react";
 import TweetForm from "./TweetForm";
 import PreviousTweets from "./PreviousTweets";
-import { getTweets, addTweet } from "../lib/existing_tweets";
-
+import { getTweets } from "../lib/api.js";
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { previousTweets: [] };
+    this.state = { displayTweets: false, previousTweets: [] };
   }
 
   componentDidMount() {
     this.refreshData();
   }
 
-  refreshData() {
-    let previousTweets = JSON.parse(localStorage.getItem("tweets") || "[]");
-    this.setState({ previousTweets });
+  async refreshData() {
+    let previousTweets = await getTweets();
+    this.setState({ displayTweets: true, previousTweets });
   }
 
   render() {
-    let { previousTweets } = this.state;
+    let { displayTweets, previousTweets } = this.state;
     return (
       <>
         <TweetForm
@@ -28,7 +27,9 @@ class HomePage extends React.Component {
           }}
         ></TweetForm>
         <ul className="all-user-tweets">
-          <PreviousTweets tweets={previousTweets}></PreviousTweets>
+          {displayTweets && (
+            <PreviousTweets tweets={previousTweets}></PreviousTweets>
+          )}
         </ul>
       </>
     );
