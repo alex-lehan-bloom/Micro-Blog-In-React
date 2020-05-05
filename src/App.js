@@ -1,5 +1,5 @@
 import React from "react";
-import TweetInput from "./components/TweetInput";
+import HomePage from "./components/HomePage";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/App.css";
 
@@ -9,7 +9,7 @@ class App extends React.Component {
     this.state = {};
   }
   render() {
-    return <TweetInput></TweetInput>;
+    return <HomePage />;
   }
 }
 

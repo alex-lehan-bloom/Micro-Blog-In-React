@@ -1,13 +1,16 @@
 :root {
   --background-color: black;
+  --tweet-container-width: 600px;
 }
 
 body {
   background-color: var(--background-color);
+  color: white;
 }
 #root {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   padding: 30px;
 }
 .App {

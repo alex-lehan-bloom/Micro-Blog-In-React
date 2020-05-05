@@ -1,0 +1,19 @@
+.all-user-tweets {
+  padding: 0;
+}
+.previous-tweet {
+  width: var(--tweet-container-width);
+  background-color: #343a40;
+  padding: 20px;
+  border-radius: 10px;
+}
+.author-and-date {
+  color: #6c757d;
+  display: flex;
+}
+.tweet-date {
+  margin-left: auto;
+}
+.tweet-text {
+  width: 475px;
+}

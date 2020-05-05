@@ -1,8 +1,8 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
-import "../css/TweetInput.css";
+import "../css/TweetForm.css";
 
-class TweetInput extends React.Component {
+class TweetForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -27,4 +27,4 @@ class TweetInput extends React.Component {
   }
 }
 
-export default TweetInput;
+export default TweetForm;
