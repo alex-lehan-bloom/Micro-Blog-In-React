@@ -4,8 +4,9 @@
 .previous-tweet {
   width: var(--tweet-container-width);
   background-color: #343a40;
-  padding: 20px;
   border-radius: 10px;
+  padding: 20px;
+  margin-top: 10px;
 }
 .author-and-date {
   color: #6c757d;

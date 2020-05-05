@@ -5,22 +5,47 @@ import "../css/TweetForm.css";
 class TweetForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { displayAlert: false, tweet: "" };
+    this.state = {
+      displayAlert: false,
+      newestTweet: { text: "", author: "Alex Bloom", date: "" },
+    };
   }
 
   handleUserTypingTweet(event) {
+    let date = new Date();
     let tweet = event.target.value;
-    if (tweet.length > 5) {
+    if (tweet.length > 140) {
       this.setState({ displayAlert: true });
     } else {
-      this.setState({ displayAlert: false, tweet });
+      this.setState({
+        displayAlert: false,
+        newestTweet: { text: tweet, author: "Alex Bloom", date },
+      });
     }
+  }
+
+  handleFormSubmit(event) {
+    event.preventDefault();
+    let { newestTweet } = this.state;
+    let existing_tweets = JSON.parse(localStorage.getItem("tweets") || "[]");
+    existing_tweets.push(newestTweet);
+    localStorage.setItem("tweets", JSON.stringify(existing_tweets));
+    this.newTweetAdded();
+  }
+
+  newTweetAdded() {
+    let { newTweetAdded } = this.props;
+    newTweetAdded();
   }
 
   render() {
     let { displayAlert } = this.state;
     return (
-      <Form>
+      <Form
+        onSubmit={(event) => {
+          this.handleFormSubmit(event);
+        }}
+      >
         <Form.Group controlId="formBasicEmail" className="tweet-form">
           <textarea
             placeholder="What's on your mind..."
