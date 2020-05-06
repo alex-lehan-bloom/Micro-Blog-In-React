@@ -7,10 +7,11 @@ class TweetForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tweetLengthExceeded: false,
-      sendingTweet: false,
       inputValue: "",
       newestTweet: { content: "", userName: "Alex Bloom", date: "" },
+      tweetLengthExceeded: false,
+      sendingTweet: false,
+      tweetFailed: false,
     };
   }
 
@@ -32,9 +33,16 @@ class TweetForm extends React.Component {
     event.preventDefault();
     let { newestTweet } = this.state;
     this.setState({ sendingTweet: true });
-    await addTweet(newestTweet);
-    this.setState({ sendingTweet: false, inputValue: "" });
-    this.props.newTweetAdded();
+    let response = await addTweet(newestTweet);
+    if (response.statusText === "OK") {
+      this.setState({ sendingTweet: false, inputValue: "" });
+      this.props.newTweetAdded();
+    } else {
+      this.setState({ tweetFailed: true, sendingTweet: false });
+      setTimeout(() => {
+        this.setState({ tweetFailed: false });
+      }, 2000);
+    }
   }
 
   newTweetAdded() {
@@ -43,7 +51,12 @@ class TweetForm extends React.Component {
   }
 
   render() {
-    let { tweetLengthExceeded, sendingTweet, inputValue } = this.state;
+    let {
+      inputValue,
+      sendingTweet,
+      tweetLengthExceeded,
+      tweetFailed,
+    } = this.state;
     return (
       <Form
         onSubmit={(event) => {
@@ -64,7 +77,11 @@ class TweetForm extends React.Component {
                 Tweet can't be more than 140 characters
               </Alert>
             )}
-
+            {tweetFailed && (
+              <Alert variant="danger">
+                Tweet failed to upload. Please try again.
+              </Alert>
+            )}
             {!tweetLengthExceeded && !sendingTweet && (
               <Button variant="primary" type="submit">
                 Tweet

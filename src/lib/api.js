@@ -9,11 +9,15 @@ export async function getTweets() {
 }
 
 export async function addTweet(newTweet) {
-  let response = await axios.post(
-    "https://itc-bootcamp-19-dot-charcha-dev.appspot.com/tweet",
-    {
-      tweet: newTweet,
-    }
-  );
-  return response;
+  try {
+    let response = await axios.post(
+      "https://itc-bootcamp-19-dot-charcha-dev.appspot.com/tweet",
+      {
+        tweet: newTweet,
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
 }
