@@ -18,3 +18,9 @@
 .username-form button {
   margin-top: 10px;
 }
+.name-successfully-changed {
+  margin: 10px 0 10px 0;
+}
+.username-in-success-message {
+  font-weight: bold;
+}

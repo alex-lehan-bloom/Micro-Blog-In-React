@@ -19,6 +19,9 @@ class TweetForm extends React.Component {
     let date = new Date();
     let tweet = event.target.value;
     let currentUser = localStorage.getItem("currentUser");
+    if (currentUser === null) {
+      currentUser = "anonymous";
+    }
     if (tweet.length > 140) {
       this.setState({ tweetLengthExceeded: true });
     } else {
