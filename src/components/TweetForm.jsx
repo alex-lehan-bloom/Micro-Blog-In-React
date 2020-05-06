@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Button, Alert } from "react-bootstrap";
+import { addTweet } from "../lib/api.js";
 import "../css/TweetForm.css";
 
 class TweetForm extends React.Component {
@@ -7,7 +8,7 @@ class TweetForm extends React.Component {
     super(props);
     this.state = {
       displayAlert: false,
-      newestTweet: { text: "", author: "Alex Bloom", date: "" },
+      newestTweet: { content: "", userName: "Alex Bloom", date: "" },
     };
   }
 
@@ -19,18 +20,16 @@ class TweetForm extends React.Component {
     } else {
       this.setState({
         displayAlert: false,
-        newestTweet: { text: tweet, author: "Alex Bloom", date },
+        newestTweet: { content: tweet, userName: "Alex Bloom", date },
       });
     }
   }
 
-  handleFormSubmit(event) {
+  async handleFormSubmit(event) {
     event.preventDefault();
     let { newestTweet } = this.state;
-    let existing_tweets = JSON.parse(localStorage.getItem("tweets") || "[]");
-    existing_tweets.push(newestTweet);
-    localStorage.setItem("tweets", JSON.stringify(existing_tweets));
-    this.newTweetAdded();
+    await addTweet(newestTweet);
+    this.props.newTweetAdded();
   }
 
   newTweetAdded() {

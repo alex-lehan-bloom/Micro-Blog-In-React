@@ -7,3 +7,13 @@ export async function getTweets() {
   let data = response.data.tweets;
   return data;
 }
+
+export async function addTweet(newTweet) {
+  let response = await axios.post(
+    "https://itc-bootcamp-19-dot-charcha-dev.appspot.com/tweet",
+    {
+      tweet: newTweet,
+    }
+  );
+  return response;
+}

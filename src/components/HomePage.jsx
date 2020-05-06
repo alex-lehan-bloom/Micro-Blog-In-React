@@ -1,7 +1,7 @@
 import React from "react";
 import TweetForm from "./TweetForm";
 import PreviousTweets from "./PreviousTweets";
-import { getTweets } from "../lib/api.js";
+import { getTweets, addTweet } from "../lib/api.js";
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
