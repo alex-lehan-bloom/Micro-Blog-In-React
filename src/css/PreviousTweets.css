@@ -3,13 +3,13 @@
 }
 .previous-tweet {
   width: var(--tweet-container-width);
-  background-color: #343a40;
+  background-color: var(--secondary-color);
   border-radius: 10px;
   padding: 20px;
   margin-top: 10px;
 }
 .author-and-date {
-  color: #6c757d;
+  color: var(--grey-text);
   display: flex;
 }
 .tweet-date {

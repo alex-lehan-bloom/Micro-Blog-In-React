@@ -1,0 +1,20 @@
+.username {
+  color: var(--grey-text);
+  font-size: 18px;
+  margin: 0 0 5px 0;
+}
+.username-form input {
+  border: 2px solid #cccccc;
+  background-color: var(--background-color);
+  border-radius: 4px;
+  height: calc(1.5em + 0.75rem + 2px);
+  width: 100%;
+  color: white;
+  padding: 2px;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+
+.username-form button {
+  margin-top: 10px;
+}

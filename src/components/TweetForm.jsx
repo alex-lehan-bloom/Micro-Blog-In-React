@@ -18,13 +18,14 @@ class TweetForm extends React.Component {
   handleUserTypingTweet(event) {
     let date = new Date();
     let tweet = event.target.value;
+    let currentUser = localStorage.getItem("currentUser");
     if (tweet.length > 140) {
       this.setState({ tweetLengthExceeded: true });
     } else {
       this.setState({
         tweetLengthExceeded: false,
         inputValue: tweet,
-        newestTweet: { content: tweet, userName: "Prince", date },
+        newestTweet: { content: tweet, userName: currentUser, date },
       });
     }
   }

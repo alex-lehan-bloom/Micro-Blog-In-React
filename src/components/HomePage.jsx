@@ -1,7 +1,8 @@
 import React from "react";
 import TweetForm from "./TweetForm";
 import PreviousTweets from "./PreviousTweets";
-import { getTweets, addTweet } from "../lib/api.js";
+import Navbar from "./Navbar";
+import { getTweets } from "../lib/api.js";
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
@@ -21,16 +22,15 @@ class HomePage extends React.Component {
     let { displayTweets, previousTweets } = this.state;
     return (
       <>
+        <Navbar />
         <TweetForm
           newTweetAdded={() => {
             this.refreshData();
           }}
         ></TweetForm>
-        <ul className="all-user-tweets">
-          {displayTweets && (
-            <PreviousTweets tweets={previousTweets}></PreviousTweets>
-          )}
-        </ul>
+        {displayTweets && (
+          <PreviousTweets tweets={previousTweets}></PreviousTweets>
+        )}
       </>
     );
   }
