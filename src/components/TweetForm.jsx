@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button, Alert } from "react-bootstrap";
+import { Form, Button, Spinner, Alert } from "react-bootstrap";
 import { addTweet } from "../lib/api.js";
 import "../css/TweetForm.css";
 
@@ -7,7 +7,9 @@ class TweetForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayAlert: false,
+      tweetLengthExceeded: false,
+      sendingTweet: false,
+      inputValue: "",
       newestTweet: { content: "", userName: "Alex Bloom", date: "" },
     };
   }
@@ -16,11 +18,12 @@ class TweetForm extends React.Component {
     let date = new Date();
     let tweet = event.target.value;
     if (tweet.length > 140) {
-      this.setState({ displayAlert: true });
+      this.setState({ tweetLengthExceeded: true });
     } else {
       this.setState({
-        displayAlert: false,
-        newestTweet: { content: tweet, userName: "Alex Bloom", date },
+        tweetLengthExceeded: false,
+        inputValue: tweet,
+        newestTweet: { content: tweet, userName: "Prince", date },
       });
     }
   }
@@ -28,7 +31,9 @@ class TweetForm extends React.Component {
   async handleFormSubmit(event) {
     event.preventDefault();
     let { newestTweet } = this.state;
+    this.setState({ sendingTweet: true });
     await addTweet(newestTweet);
+    this.setState({ sendingTweet: false, inputValue: "" });
     this.props.newTweetAdded();
   }
 
@@ -38,7 +43,7 @@ class TweetForm extends React.Component {
   }
 
   render() {
-    let { displayAlert } = this.state;
+    let { tweetLengthExceeded, sendingTweet, inputValue } = this.state;
     return (
       <Form
         onSubmit={(event) => {
@@ -48,23 +53,36 @@ class TweetForm extends React.Component {
         <Form.Group controlId="formBasicEmail" className="tweet-form">
           <textarea
             placeholder="What's on your mind..."
+            value={inputValue}
             onChange={(event) => {
               this.handleUserTypingTweet(event);
             }}
           ></textarea>
           <div className="alert-and-button-container">
-            {displayAlert && (
+            {tweetLengthExceeded && (
               <Alert variant="danger">
                 Tweet can't be more than 140 characters
               </Alert>
             )}
 
-            {!displayAlert && (
+            {!tweetLengthExceeded && !sendingTweet && (
               <Button variant="primary" type="submit">
                 Tweet
               </Button>
             )}
-            {displayAlert && (
+            {!tweetLengthExceeded && sendingTweet && (
+              <Button variant="primary" disabled>
+                <Spinner
+                  as="span"
+                  animation="grow"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+                Sending...
+              </Button>
+            )}
+            {tweetLengthExceeded && (
               <Button variant="primary" type="submit" disabled>
                 Tweet
               </Button>
