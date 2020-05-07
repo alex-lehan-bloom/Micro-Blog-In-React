@@ -1,36 +1,37 @@
 import React, { Component } from "react";
 import AppContext from "./AppContext";
+import { getTweetsFromServer } from "../lib/api";
 
 class AppProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
       tweets: [],
+      interval: null,
     };
   }
 
-  componentDidMount() {
-    let existing_tweets = JSON.parse(localStorage.getItem("tweets") || "[]");
-    this.setState({ tweets: existing_tweets });
+  async componentDidMount() {
+    let tweets_from_server = await getTweetsFromServer();
+    this.setState({ tweets: tweets_from_server });
+    const interval = setInterval(async () => {
+      tweets_from_server = await getTweetsFromServer();
+      this.setState({ interval: interval, tweets: tweets_from_server });
+    }, 300000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.interval);
   }
 
   render() {
-    let existing_tweets = JSON.parse(localStorage.getItem("tweets") || "[]");
     return (
       <AppContext.Provider
         value={{
           tweets: this.state.tweets,
           addTweetLocally: (tweet) => {
-            existing_tweets = JSON.parse(
-              localStorage.getItem("tweets") || "[]"
-            );
+            let existing_tweets = this.state.tweets;
             existing_tweets.unshift(tweet);
-            localStorage.setItem("tweets", JSON.stringify(existing_tweets));
-          },
-          refreshLocalTweets: () => {
-            existing_tweets = JSON.parse(
-              localStorage.getItem("tweets") || "[]"
-            );
             this.setState({ tweets: existing_tweets });
           },
         }}

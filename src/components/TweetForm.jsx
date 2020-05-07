@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Button, Spinner, Alert } from "react-bootstrap";
 import AppContext from "../context/AppContext";
-import { addTweet } from "../lib/api.js";
+import { addTweetToServer } from "../lib/api.js";
 import "../css/TweetForm.css";
 
 class TweetForm extends React.Component {
@@ -34,11 +34,11 @@ class TweetForm extends React.Component {
     }
   }
 
-  async handleFormSubmit(event) {
+  async addTweetToServer(event) {
     event.preventDefault();
     let { newestTweet } = this.state;
     this.setState({ sendingTweet: true });
-    let response = await addTweet(newestTweet);
+    let response = await addTweetToServer(newestTweet);
     if (response.statusText === "OK") {
       this.setState({ sendingTweet: false, inputValue: "" });
       this.props.newTweetAdded();
@@ -68,9 +68,8 @@ class TweetForm extends React.Component {
         {(context) => (
           <Form
             onSubmit={(event) => {
-              this.handleFormSubmit(event);
+              this.addTweetToServer(event);
               context.addTweetLocally(newestTweet);
-              context.refreshLocalTweets();
             }}
           >
             <Form.Group controlId="formBasicEmail" className="tweet-form">

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { addTweet } from "../lib/api";
+import { addTweetToServer } from "../lib/api";
 import AppContext from "../context/AppContext";
 import "../css/PreviousTweets.css";
 

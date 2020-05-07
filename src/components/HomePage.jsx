@@ -2,7 +2,7 @@ import React from "react";
 import TweetForm from "./TweetForm";
 import PreviousTweets from "./PreviousTweets";
 import Navbar from "./Navbar";
-import { getTweets } from "../lib/api.js";
+import { getTweetsFromServer } from "../lib/api.js";
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
@@ -14,7 +14,7 @@ class HomePage extends React.Component {
   }
 
   async refreshData() {
-    let previousTweets = await getTweets();
+    let previousTweets = await getTweetsFromServer();
     this.setState({ displayTweets: true, previousTweets });
   }
 
