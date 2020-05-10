@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import AppContext from "./AppContext";
-import { getTweetsFromServer } from "../lib/api";
+import { getTweetsFromFirestore } from "../firestore/firestoreAPI";
 
 class AppProvider extends Component {
   constructor(props) {
@@ -12,10 +12,10 @@ class AppProvider extends Component {
   }
 
   async componentDidMount() {
-    let tweets_from_server = await getTweetsFromServer();
+    let tweets_from_server = await getTweetsFromFirestore();
     this.setState({ tweets: tweets_from_server });
     let interval = setInterval(async () => {
-      tweets_from_server = await getTweetsFromServer();
+      tweets_from_server = await getTweetsFromFirestore();
       this.setState({ tweets: tweets_from_server });
     }, 180000);
     this.setState({ interval: interval });

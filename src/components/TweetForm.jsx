@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Button, Spinner, Alert } from "react-bootstrap";
 import AppContext from "../context/AppContext";
+import { addTweetToFirestore } from "../firestore/firestoreAPI";
 import { addTweetToServer } from "../lib/api.js";
 import "../css/TweetForm.css";
 
@@ -38,8 +39,8 @@ class TweetForm extends React.Component {
     event.preventDefault();
     let { newestTweet } = this.state;
     this.setState({ sendingTweet: true });
-    let response = await addTweetToServer(newestTweet);
-    if (response.statusText === "OK") {
+    let response = await addTweetToFirestore(newestTweet);
+    if (response !== "Error") {
       this.setState({ sendingTweet: false, inputValue: "" });
     } else {
       this.setState({ tweetFailed: true, sendingTweet: false });
