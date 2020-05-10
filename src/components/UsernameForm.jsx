@@ -8,23 +8,26 @@ class UsernameForm extends React.Component {
     this.state = { username: "", nameChanged: false };
   }
 
-  closeNameChangeAlert() {
-    this.setState({ nameChanged: false });
-  }
-
   handleUserTyping(event) {
-    this.setState({ username: event.target.value });
+    this.setState({ username: event.target.value }, () => {
+      console.log(this.state.username);
+    });
   }
 
   handleOnSubmit(event) {
     event.preventDefault();
     let { username } = this.state;
     localStorage.setItem("currentUser", username);
-    this.setState({ username: "", nameChanged: true });
+    this.setState({ nameChanged: true });
+  }
+
+  closeNameChangeAlert() {
+    this.setState({ nameChanged: false });
   }
 
   render() {
     let { username, nameChanged } = this.state;
+    console.log("render", this.state.username);
     return (
       <>
         <Form

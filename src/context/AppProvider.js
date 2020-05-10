@@ -14,14 +14,16 @@ class AppProvider extends Component {
   async componentDidMount() {
     let tweets_from_server = await getTweetsFromServer();
     this.setState({ tweets: tweets_from_server });
-    const interval = setInterval(async () => {
+    let interval = setInterval(async () => {
       tweets_from_server = await getTweetsFromServer();
-      this.setState({ interval: interval, tweets: tweets_from_server });
-    }, 300000);
+      this.setState({ tweets: tweets_from_server });
+    }, 180000);
+    this.setState({ interval: interval });
   }
 
   componentWillUnmount() {
-    clearInterval(this.state.interval);
+    let { interval } = this.state;
+    clearInterval(interval);
   }
 
   render() {

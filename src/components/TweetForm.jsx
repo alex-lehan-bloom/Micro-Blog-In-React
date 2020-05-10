@@ -41,18 +41,12 @@ class TweetForm extends React.Component {
     let response = await addTweetToServer(newestTweet);
     if (response.statusText === "OK") {
       this.setState({ sendingTweet: false, inputValue: "" });
-      this.props.newTweetAdded();
     } else {
       this.setState({ tweetFailed: true, sendingTweet: false });
       setTimeout(() => {
         this.setState({ tweetFailed: false });
       }, 2000);
     }
-  }
-
-  newTweetAdded() {
-    let { newTweetAdded } = this.props;
-    newTweetAdded();
   }
 
   render() {
@@ -82,9 +76,14 @@ class TweetForm extends React.Component {
               ></textarea>
               <div className="alert-and-button-container">
                 {tweetLengthExceeded && (
-                  <Alert variant="danger">
-                    Tweet can't be more than 140 characters
-                  </Alert>
+                  <>
+                    <Alert variant="danger">
+                      Tweet can't be more than 140 characters
+                    </Alert>
+                    <Button variant="primary" type="submit" disabled>
+                      Tweet
+                    </Button>
+                  </>
                 )}
                 {tweetFailed && (
                   <Alert variant="danger">
@@ -106,11 +105,6 @@ class TweetForm extends React.Component {
                       aria-hidden="true"
                     />
                     Sending...
-                  </Button>
-                )}
-                {tweetLengthExceeded && (
-                  <Button variant="primary" type="submit" disabled>
-                    Tweet
                   </Button>
                 )}
               </div>
