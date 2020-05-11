@@ -9,9 +9,7 @@ class UsernameForm extends React.Component {
   }
 
   handleUserTyping(event) {
-    this.setState({ username: event.target.value }, () => {
-      console.log(this.state.username);
-    });
+    this.setState({ username: event.target.value });
   }
 
   handleOnSubmit(event) {
@@ -27,7 +25,6 @@ class UsernameForm extends React.Component {
 
   render() {
     let { username, nameChanged } = this.state;
-    console.log("render", this.state.username);
     return (
       <>
         <Form

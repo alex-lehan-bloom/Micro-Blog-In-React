@@ -2,7 +2,7 @@ import React from "react";
 import Login from "./components/Login";
 import HomePage from "./components/HomePage";
 import ProfilePage from "./components/ProfilePage";
-import firebase from "./firestore/firebaseSettings";
+import firebase, { auth } from "./firestore/firebaseSettings";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AppProvider from "./context/AppProvider";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -21,7 +21,7 @@ class App extends React.Component {
   authListener() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({ user });
+        this.setState({ user: auth.currentUser.uid });
         // localStorage.setItem("user", user.uid);
       } else {
         this.setState({ user: null });
