@@ -1,3 +1,7 @@
 .profile-page {
   width: var(--tweet-container-width);
 }
+.logout {
+  position: fixed;
+  bottom: 100px;
+}

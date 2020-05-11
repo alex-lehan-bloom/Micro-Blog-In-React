@@ -42,7 +42,7 @@ class App extends React.Component {
               <Login />
             </Route>
             <Route exact path="/profile">
-              <ProfilePage />
+              {this.state.user ? <ProfilePage /> : <Login />}
             </Route>
           </Switch>
         </Router>
