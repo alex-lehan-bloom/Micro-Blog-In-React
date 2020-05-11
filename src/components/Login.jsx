@@ -6,6 +6,8 @@ import "../css/Login.css";
 class Login extends Component {
   constructor(props) {
     super(props);
+    this.login = this.login.bind(this);
+    this.register = this.register.bind(this);
     this.state = { email: null, password: null };
   }
 
@@ -28,15 +30,21 @@ class Login extends Component {
     }
   }
 
+  async register(event) {
+    event.preventDefault();
+    try {
+      await firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password);
+    } catch (error) {
+      return Error;
+    }
+  }
   render() {
     return (
       <div className="login">
         <h1 className="header">Sign in</h1>
-        <Form
-          onSubmit={(event) => {
-            this.login(event);
-          }}
-        >
+        <Form>
           <Form.Group controlId="formBasicEmail">
             <Form.Label className="label">Email address</Form.Label>
             <Form.Control
@@ -57,11 +65,11 @@ class Login extends Component {
               }}
             />
           </Form.Group>
-          <Form.Group controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Remember me" />
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
+          <Button variant="primary" onClick={this.login}>
+            Login
+          </Button>
+          <Button className="register" variant="danger" onClick={this.register}>
+            Register
           </Button>
         </Form>
       </div>

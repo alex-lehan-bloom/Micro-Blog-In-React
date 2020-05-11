@@ -15,3 +15,6 @@
 .login button {
   width: 100%;
 }
+.login .register {
+  margin-top: 10px;
+}
