@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
-import firebase from "../firestore/firebaseSettings";
+import firebase, { logInWithGoogle } from "../firestore/firebaseSettings";
 import "../css/Login.css";
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.login = this.login.bind(this);
+    this.login = this.logIn.bind(this);
+    this.googleLogIn = this.googleLogIn.bind(this);
     this.register = this.register.bind(this);
+
     this.state = { email: null, password: null };
   }
 
@@ -19,7 +21,7 @@ class Login extends Component {
     this.setState({ password: event.target.value });
   }
 
-  async login(event) {
+  async logIn(event) {
     event.preventDefault();
     try {
       await firebase
@@ -28,6 +30,11 @@ class Login extends Component {
     } catch (error) {
       return Error;
     }
+  }
+
+  googleLogIn(event) {
+    event.preventDefault();
+    logInWithGoogle();
   }
 
   async register(event) {
@@ -65,8 +72,15 @@ class Login extends Component {
               }}
             />
           </Form.Group>
-          <Button variant="primary" onClick={this.login}>
-            Login
+          <Button variant="primary" onClick={this.logIn}>
+            Log In
+          </Button>
+          <Button
+            className="register"
+            variant="success"
+            onClick={this.googleLogIn}
+          >
+            Log In with Google
           </Button>
           <Button className="register" variant="danger" onClick={this.register}>
             Register
