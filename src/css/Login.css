@@ -18,3 +18,8 @@
 .login .register {
   margin-top: 10px;
 }
+.login-error {
+  width: 400px;
+  text-align: center;
+  margin-top: 10px;
+}
