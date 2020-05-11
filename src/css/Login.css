@@ -1,0 +1,17 @@
+.login {
+  background-color: white;
+  border-radius: 4px;
+  color: black;
+  padding: 30px;
+  width: 400px;
+  margin-top: 5%;
+}
+.login .header {
+  text-align: center;
+}
+.login .label {
+  font-weight: bold;
+}
+.login button {
+  width: 100%;
+}

@@ -2,7 +2,6 @@ import React from "react";
 import { Form, Button, Spinner, Alert } from "react-bootstrap";
 import AppContext from "../context/AppContext";
 import { addTweetToFirestore } from "../firestore/firestoreAPI";
-import { addTweetToServer } from "../lib/api.js";
 import "../css/TweetForm.css";
 
 class TweetForm extends React.Component {
