@@ -22,10 +22,8 @@ class App extends React.Component {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({ user: auth.currentUser.uid });
-        // localStorage.setItem("user", user.uid);
       } else {
         this.setState({ user: null });
-        // localStorage.removeItem("user")
       }
     });
   }

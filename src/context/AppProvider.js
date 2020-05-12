@@ -11,8 +11,20 @@ class AppProvider extends Component {
     };
   }
 
+  sortTweetsByDate(tweets) {
+    // Newest tweet will be first, oldest last
+    return tweets.sort(function (a, b) {
+      const keyA = new Date(a.date);
+      const keyB = new Date(b.date);
+      if (keyA < keyB) return 1;
+      if (keyA > keyB) return -1;
+      return 0;
+    });
+  }
+
   async componentDidMount() {
     let tweets_from_server = await getTweetsFromFirestore();
+    tweets_from_server = this.sortTweetsByDate(tweets_from_server);
     this.setState({ tweets: tweets_from_server });
     let interval = setInterval(async () => {
       tweets_from_server = await getTweetsFromFirestore();
