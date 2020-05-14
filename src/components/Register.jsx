@@ -16,7 +16,7 @@ class Register extends React.Component {
       errorMessage: null,
       user: {},
     };
-    this.LogInWithGoogle = this.LogInWithGoogle.bind(this);
+    this.LogInWithGoogle = this.registerWithGoogle.bind(this);
     this.register = this.register.bind(this);
   }
 
@@ -41,7 +41,7 @@ class Register extends React.Component {
     this.setState({ password: event.target.value });
   }
 
-  async LogInWithGoogle(event) {
+  async registerWithGoogle(event) {
     event.preventDefault();
     await auth.signInWithPopup(firebaseGoogleProvider);
     this.addUserToLocalStorage();
@@ -57,6 +57,10 @@ class Register extends React.Component {
     } catch (error) {
       this.handleLoginErrors(error);
     }
+  }
+
+  addUserToLocalStorage() {
+    localStorage.setItem("currentUser", this.state.email);
   }
 
   render() {
@@ -82,16 +86,18 @@ class Register extends React.Component {
               <Form.Control
                 type="password"
                 placeholder="Password"
+                required={true}
                 onChange={(event) => {
                   this.handleUserPassword(event);
                 }}
               />
             </Form.Group>
             <Form.Group>
-              <Form.Label className="label">Password</Form.Label>
+              <Form.Label className="label">Name</Form.Label>
               <Form.Control
-                type="password"
+                type="username"
                 placeholder="Password"
+                required
                 onChange={(event) => {
                   this.handleUserPassword(event);
                 }}
@@ -108,7 +114,7 @@ class Register extends React.Component {
             <Button
               className="register-google-button"
               variant="success"
-              onClick={this.LogInWithGoogle}
+              onClick={this.registerWithGoogle}
             >
               Register with Google
             </Button>
