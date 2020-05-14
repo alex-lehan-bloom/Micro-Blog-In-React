@@ -7,7 +7,7 @@ class AppProvider extends Component {
     super(props);
     this.state = {
       tweets: [],
-      interval: null,
+      refreshTweetsInterval: null,
     };
   }
 
@@ -26,16 +26,17 @@ class AppProvider extends Component {
     let tweets_from_server = await getTweetsFromFirestore();
     tweets_from_server = this.sortTweetsByDate(tweets_from_server);
     this.setState({ tweets: tweets_from_server });
-    let interval = setInterval(async () => {
+    let refreshTweetsInterval = setInterval(async () => {
       tweets_from_server = await getTweetsFromFirestore();
+      tweets_from_server = this.sortTweetsByDate(tweets_from_server);
       this.setState({ tweets: tweets_from_server });
     }, 180000);
-    this.setState({ interval: interval });
+    this.setState({ refreshTweetsInterval });
   }
 
   componentWillUnmount() {
-    let { interval } = this.state;
-    clearInterval(interval);
+    let { refreshTweetsInterval } = this.state;
+    clearInterval(refreshTweetsInterval);
   }
 
   render() {

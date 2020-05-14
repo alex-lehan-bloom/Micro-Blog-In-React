@@ -2,6 +2,9 @@
   width: var(--tweet-container-width);
 }
 .logout {
-  position: fixed;
-  bottom: 100px;
+  margin-top: 20px;
+}
+.profile-page h2 {
+  text-decoration: underline;
+  margin: 20px 0 20px 0;
 }

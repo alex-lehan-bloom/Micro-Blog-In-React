@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import firebase, {
   auth,
   firebaseGoogleProvider,
 } from "../firestore/firebaseSettings";
-import "../css/Login.css";
+import "../css/Register.css";
 
-class Login extends Component {
+class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +16,6 @@ class Login extends Component {
       errorMessage: null,
       user: {},
     };
-    this.logInUsernamePassword = this.logInUsernamePassword.bind(this);
     this.LogInWithGoogle = this.LogInWithGoogle.bind(this);
     this.register = this.register.bind(this);
   }
@@ -42,18 +41,6 @@ class Login extends Component {
     this.setState({ password: event.target.value });
   }
 
-  async logInUsernamePassword(event) {
-    event.preventDefault();
-    try {
-      await firebase
-        .auth()
-        .signInWithEmailAndPassword(this.state.email, this.state.password);
-      this.addUserToLocalStorage();
-    } catch (error) {
-      this.handleLoginErrors(error);
-    }
-  }
-
   async LogInWithGoogle(event) {
     event.preventDefault();
     await auth.signInWithPopup(firebaseGoogleProvider);
@@ -68,22 +55,18 @@ class Login extends Component {
         .createUserWithEmailAndPassword(this.state.email, this.state.password);
       this.addUserToLocalStorage();
     } catch (error) {
-      this.handleLoginErrors(error.code);
+      this.handleLoginErrors(error);
     }
-  }
-
-  addUserToLocalStorage() {
-    localStorage.setItem("currentUser", this.state.email);
   }
 
   render() {
     let { logInError, errorMessage } = this.state;
     return (
       <>
-        <div className="login">
-          <h1 className="header">Sign in</h1>
+        <div className="register">
+          <h1 className="header">Register</h1>
           <Form>
-            <Form.Group controlId="formBasicEmail">
+            <Form.Group>
               <Form.Label className="label">Email address</Form.Label>
               <Form.Control
                 type="email"
@@ -94,38 +77,45 @@ class Login extends Component {
                 }}
               />
             </Form.Group>
-            <Form.Group controlId="formBasicPassword">
+            <Form.Group>
               <Form.Label className="label">Password</Form.Label>
               <Form.Control
                 type="password"
-                required={true}
                 placeholder="Password"
                 onChange={(event) => {
                   this.handleUserPassword(event);
                 }}
               />
             </Form.Group>
-            <Button variant="primary" onClick={this.logInUsernamePassword}>
-              Log In
-            </Button>
+            <Form.Group>
+              <Form.Label className="label">Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                onChange={(event) => {
+                  this.handleUserPassword(event);
+                }}
+              />
+            </Form.Group>
             <Button
-              className="register"
-              variant="success"
-              onClick={this.LogInWithGoogle}
-            >
-              Log In with Google
-            </Button>
-            <Button
-              className="register"
+              className="register-button"
               variant="danger"
               onClick={this.register}
             >
               Register
             </Button>
+            <p className="register-or">Or</p>
+            <Button
+              className="register-google-button"
+              variant="success"
+              onClick={this.LogInWithGoogle}
+            >
+              Register with Google
+            </Button>
           </Form>
         </div>
         {logInError && (
-          <Alert variant="danger" className="login-error">
+          <Alert variant="danger" className="register-error">
             {errorMessage}
           </Alert>
         )}
@@ -134,4 +124,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Register;

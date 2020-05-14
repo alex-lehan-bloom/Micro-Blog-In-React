@@ -1,0 +1,31 @@
+.downloading-picture {
+  margin-left: 200px;
+}
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.profile-pic-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.profile-pic {
+  width: 300px;
+  border-radius: 50%;
+  display: block;
+  margin: 20px 0 20px 0;
+}
+.profile-pic-upload {
+  padding: 0;
+  margin-bottom: 0;
+}
+.profile-pic-upload:hover {
+  cursor: pointer;
+}

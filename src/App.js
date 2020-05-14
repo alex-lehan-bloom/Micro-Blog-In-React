@@ -1,5 +1,6 @@
 import React from "react";
 import Login from "./components/Login";
+import Register from "./components/Register";
 import HomePage from "./components/HomePage";
 import ProfilePage from "./components/ProfilePage";
 import firebase, { auth } from "./firestore/firebaseSettings";
@@ -38,6 +39,9 @@ class App extends React.Component {
             </Route>
             <Route exact path="/login">
               <Login />
+            </Route>
+            <Route exact path="/register">
+              <Register />
             </Route>
             <Route exact path="/profile">
               {this.state.user ? <ProfilePage /> : <Login />}
