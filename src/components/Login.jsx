@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
-import firebase, {
-  auth,
-  firebaseGoogleProvider,
-} from "../firestore/firebaseSettings";
+import firebase from "../firestore/firebaseSettings";
+import { registerWithGoogle } from "../firestore/firestoreAPI";
 import LinkToRegisterPage from "./LinkToRegisterPage";
 import "../css/Login.css";
 
@@ -51,12 +49,6 @@ class Login extends Component {
     }
   }
 
-  async LogInWithGoogle(event) {
-    event.preventDefault();
-    await auth.signInWithPopup(firebaseGoogleProvider);
-    this.addUserToLocalStorage();
-  }
-
   render() {
     let { logInError, errorMessage } = this.state;
     return (
@@ -97,7 +89,7 @@ class Login extends Component {
             <Button
               variant="success"
               onClick={(event) => {
-                this.LogInWithGoogle(event);
+                registerWithGoogle(event);
               }}
             >
               Log In with Google

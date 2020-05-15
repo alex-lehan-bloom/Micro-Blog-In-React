@@ -1,4 +1,4 @@
-import { firestoreDB } from "./firebaseSettings";
+import { firestoreDB, auth, firebaseGoogleProvider } from "./firebaseSettings";
 
 export async function getTweetsFromFirestore() {
   const collection = await firestoreDB.collection("tweets").get();
@@ -41,4 +41,13 @@ export async function getUserFromFirestore(userEmail) {
   } else {
     return data;
   }
+}
+
+export async function registerWithGoogle(event) {
+  event.preventDefault();
+  let googleUser = await auth.signInWithPopup(firebaseGoogleProvider);
+  let name = googleUser.additionalUserInfo.profile.name;
+  let email = googleUser.user.email;
+  addUserToFirestore({ name, email });
+  localStorage.setItem("currentUser", name);
 }

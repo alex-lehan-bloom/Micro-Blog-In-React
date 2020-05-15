@@ -1,10 +1,10 @@
 import React from "react";
 import { Form, Button, Alert } from "react-bootstrap";
-import firebase, {
-  auth,
-  firebaseGoogleProvider,
-} from "../firestore/firebaseSettings";
-import { addUserToFirestore } from "../firestore/firestoreAPI";
+import firebase from "../firestore/firebaseSettings";
+import {
+  addUserToFirestore,
+  registerWithGoogle,
+} from "../firestore/firestoreAPI";
 import "../css/Register.css";
 
 class Register extends React.Component {
@@ -46,14 +46,6 @@ class Register extends React.Component {
     this.setState({ name: event.target.value });
   }
 
-  async registerWithGoogle(event) {
-    event.preventDefault();
-    let googleUser = await auth.signInWithPopup(firebaseGoogleProvider);
-    let name = googleUser.additionalUserInfo.profile.name;
-    let email = googleUser.user.email;
-    addUserToFirestore({ name, email });
-  }
-
   async register(event) {
     event.preventDefault();
     if (this.state.name === null) {
@@ -68,6 +60,7 @@ class Register extends React.Component {
           );
         let user = { name: this.state.name, email: this.state.email };
         addUserToFirestore(user);
+        localStorage.setItem("currentUser", this.state.name);
       } catch (error) {
         this.handleRegistrationErrors(error);
       }
@@ -127,7 +120,7 @@ class Register extends React.Component {
               className="register-google-button"
               variant="success"
               onClick={(event) => {
-                this.registerWithGoogle(event);
+                registerWithGoogle(event);
               }}
             >
               Register with Google
