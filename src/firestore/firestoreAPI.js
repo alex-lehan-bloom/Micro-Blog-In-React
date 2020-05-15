@@ -17,7 +17,10 @@ export async function addTweetToFirestore(tweet) {
 
 export async function addUserToFirestore(user) {
   try {
-    let response = await firestoreDB.collection("users").add(user);
+    let response = await firestoreDB
+      .collection("users")
+      .doc(user.email)
+      .set(user);
     return response;
   } catch (error) {
     return "Error";
@@ -31,12 +34,11 @@ export async function getUsersFromFirestore() {
 }
 
 export async function getUserFromFirestore(userEmail) {
-  let users = await getUsersFromFirestore();
-  let userFound = false;
-  users.forEach((user) => {
-    if (user.email === userEmail) {
-      userFound = user;
-    }
-  });
-  return userFound;
+  let response = await firestoreDB.collection("users").doc(userEmail).get();
+  const data = response.data();
+  if (data === undefined) {
+    return false;
+  } else {
+    return data;
+  }
 }

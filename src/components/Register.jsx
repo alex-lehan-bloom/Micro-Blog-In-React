@@ -20,7 +20,6 @@ class Register extends React.Component {
   }
 
   handleRegistrationErrors(error) {
-    console.log(error);
     this.setState(
       { registrationError: true, errorMessage: error.message },
       () => {
@@ -49,12 +48,10 @@ class Register extends React.Component {
 
   async registerWithGoogle(event) {
     event.preventDefault();
-    if (this.state.name === null) {
-      this.handleRegistrationErrors({ message: "Name is required." });
-    } else {
-      await auth.signInWithPopup(firebaseGoogleProvider);
-      this.addRegisteredUserToFireStore();
-    }
+    let googleUser = await auth.signInWithPopup(firebaseGoogleProvider);
+    let name = googleUser.additionalUserInfo.profile.name;
+    let email = googleUser.user.email;
+    addUserToFirestore({ name, email });
   }
 
   async register(event) {
@@ -69,16 +66,12 @@ class Register extends React.Component {
             this.state.email,
             this.state.password
           );
-        this.addRegisteredUserToFireStore();
+        let user = { name: this.state.name, email: this.state.email };
+        addUserToFirestore(user);
       } catch (error) {
         this.handleRegistrationErrors(error);
       }
     }
-  }
-
-  addRegisteredUserToFireStore() {
-    let user = { name: this.state.name, email: this.state.email };
-    addUserToFirestore(user);
   }
 
   render() {

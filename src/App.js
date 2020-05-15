@@ -4,7 +4,6 @@ import Register from "./components/Register";
 import HomePage from "./components/HomePage";
 import ProfilePage from "./components/ProfilePage";
 import firebase, { auth } from "./firestore/firebaseSettings";
-import { getUserFromFirestore } from "./firestore/firestoreAPI";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AppProvider from "./context/AppProvider";
 import "bootstrap/dist/css/bootstrap.min.css";
