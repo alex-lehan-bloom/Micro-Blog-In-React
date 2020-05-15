@@ -14,34 +14,11 @@
 }
 .register button {
   width: 100%;
+  margin: 10px 0 10px 0;
 }
 
 .register-error {
   width: 400px;
   text-align: center;
   margin-top: 10px;
-}
-
-.register-or {
-  position: relative;
-  font-size: 18px;
-  font-weight: bold;
-  z-index: 1;
-  overflow: hidden;
-  text-align: center;
-  margin: 10px 0 10px 0;
-}
-.register-or:before,
-.register-or:after {
-  position: absolute;
-  top: 51%;
-  overflow: hidden;
-  width: 50%;
-  height: 1px;
-  content: "\a0";
-  background-color: black;
-}
-.register-or:before {
-  margin-left: -50%;
-  text-align: right;
 }

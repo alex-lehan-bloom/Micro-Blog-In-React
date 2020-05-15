@@ -4,6 +4,7 @@ import firebase, {
   auth,
   firebaseGoogleProvider,
 } from "../firestore/firebaseSettings";
+import { addUserToFirestore } from "../firestore/firestoreAPI";
 import "../css/Register.css";
 
 class Register extends React.Component {
@@ -12,24 +13,25 @@ class Register extends React.Component {
     this.state = {
       email: null,
       password: null,
-      logInError: false,
+      name: null,
+      registrationError: false,
       errorMessage: null,
-      user: {},
     };
-    this.LogInWithGoogle = this.registerWithGoogle.bind(this);
-    this.register = this.register.bind(this);
   }
 
-  handleLoginErrors(error) {
+  handleRegistrationErrors(error) {
     console.log(error);
-    this.setState({ logInError: true, errorMessage: error.message }, () => {
-      this.setLoginErrorTimeout();
-    });
+    this.setState(
+      { registrationError: true, errorMessage: error.message },
+      () => {
+        this.setLoginErrorTimeout();
+      }
+    );
   }
 
   setLoginErrorTimeout() {
     setTimeout(() => {
-      this.setState({ logInError: false });
+      this.setState({ registrationError: false });
     }, 4000);
   }
 
@@ -41,30 +43,46 @@ class Register extends React.Component {
     this.setState({ password: event.target.value });
   }
 
+  handleUserName(event) {
+    this.setState({ name: event.target.value });
+  }
+
   async registerWithGoogle(event) {
     event.preventDefault();
-    await auth.signInWithPopup(firebaseGoogleProvider);
-    this.addUserToLocalStorage();
+    if (this.state.name === null) {
+      this.handleRegistrationErrors({ message: "Name is required." });
+    } else {
+      await auth.signInWithPopup(firebaseGoogleProvider);
+      this.addRegisteredUserToFireStore();
+    }
   }
 
   async register(event) {
     event.preventDefault();
-    try {
-      await firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.state.email, this.state.password);
-      this.addUserToLocalStorage();
-    } catch (error) {
-      this.handleLoginErrors(error);
+    if (this.state.name === null) {
+      this.handleRegistrationErrors({ message: "Name is required." });
+    } else {
+      try {
+        await firebase
+          .auth()
+          .createUserWithEmailAndPassword(
+            this.state.email,
+            this.state.password
+          );
+        this.addRegisteredUserToFireStore();
+      } catch (error) {
+        this.handleRegistrationErrors(error);
+      }
     }
   }
 
-  addUserToLocalStorage() {
-    localStorage.setItem("currentUser", this.state.email);
+  addRegisteredUserToFireStore() {
+    let user = { name: this.state.name, email: this.state.email };
+    addUserToFirestore(user);
   }
 
   render() {
-    let { logInError, errorMessage } = this.state;
+    let { registrationError: logInError, errorMessage } = this.state;
     return (
       <>
         <div className="register">
@@ -74,7 +92,7 @@ class Register extends React.Component {
               <Form.Label className="label">Email address</Form.Label>
               <Form.Control
                 type="email"
-                required={true}
+                required
                 placeholder="Enter email"
                 onChange={(event) => {
                   this.handleUserEmail(event);
@@ -86,7 +104,7 @@ class Register extends React.Component {
               <Form.Control
                 type="password"
                 placeholder="Password"
-                required={true}
+                required
                 onChange={(event) => {
                   this.handleUserPassword(event);
                 }}
@@ -95,26 +113,29 @@ class Register extends React.Component {
             <Form.Group>
               <Form.Label className="label">Name</Form.Label>
               <Form.Control
-                type="username"
-                placeholder="Password"
+                type="text"
+                placeholder="Name"
                 required
                 onChange={(event) => {
-                  this.handleUserPassword(event);
+                  this.handleUserName(event);
                 }}
               />
             </Form.Group>
             <Button
               className="register-button"
-              variant="danger"
-              onClick={this.register}
+              variant="primary"
+              onClick={(event) => {
+                this.register(event);
+              }}
             >
               Register
             </Button>
-            <p className="register-or">Or</p>
             <Button
               className="register-google-button"
               variant="success"
-              onClick={this.registerWithGoogle}
+              onClick={(event) => {
+                this.registerWithGoogle(event);
+              }}
             >
               Register with Google
             </Button>

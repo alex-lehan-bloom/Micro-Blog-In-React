@@ -4,6 +4,7 @@ import firebase, {
   auth,
   firebaseGoogleProvider,
 } from "../firestore/firebaseSettings";
+import LinkToRegisterPage from "./LinkToRegisterPage";
 import "../css/Login.css";
 
 class Login extends Component {
@@ -16,9 +17,6 @@ class Login extends Component {
       errorMessage: null,
       user: {},
     };
-    this.logInUsernamePassword = this.logInUsernamePassword.bind(this);
-    this.LogInWithGoogle = this.LogInWithGoogle.bind(this);
-    this.register = this.register.bind(this);
   }
 
   handleLoginErrors(error) {
@@ -48,7 +46,6 @@ class Login extends Component {
       await firebase
         .auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password);
-      this.addUserToLocalStorage();
     } catch (error) {
       this.handleLoginErrors(error);
     }
@@ -58,22 +55,6 @@ class Login extends Component {
     event.preventDefault();
     await auth.signInWithPopup(firebaseGoogleProvider);
     this.addUserToLocalStorage();
-  }
-
-  async register(event) {
-    event.preventDefault();
-    try {
-      await firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.state.email, this.state.password);
-      this.addUserToLocalStorage();
-    } catch (error) {
-      this.handleLoginErrors(error.code);
-    }
-  }
-
-  addUserToLocalStorage() {
-    localStorage.setItem("currentUser", this.state.email);
   }
 
   render() {
@@ -105,24 +86,24 @@ class Login extends Component {
                 }}
               />
             </Form.Group>
-            <Button variant="primary" onClick={this.logInUsernamePassword}>
+            <Button
+              variant="primary"
+              onClick={(event) => {
+                this.logInUsernamePassword(event);
+              }}
+            >
               Log In
             </Button>
             <Button
-              className="register"
               variant="success"
-              onClick={this.LogInWithGoogle}
+              onClick={(event) => {
+                this.LogInWithGoogle(event);
+              }}
             >
               Log In with Google
             </Button>
-            <Button
-              className="register"
-              variant="danger"
-              onClick={this.register}
-            >
-              Register
-            </Button>
           </Form>
+          <LinkToRegisterPage />
         </div>
         {logInError && (
           <Alert variant="danger" className="login-error">

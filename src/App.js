@@ -4,6 +4,7 @@ import Register from "./components/Register";
 import HomePage from "./components/HomePage";
 import ProfilePage from "./components/ProfilePage";
 import firebase, { auth } from "./firestore/firebaseSettings";
+import { getUserFromFirestore } from "./firestore/firestoreAPI";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AppProvider from "./context/AppProvider";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -15,7 +16,7 @@ class App extends React.Component {
     this.state = { user: {} };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.authListener();
   }
 
@@ -40,11 +41,11 @@ class App extends React.Component {
             <Route exact path="/login">
               <Login />
             </Route>
-            <Route exact path="/register">
-              <Register />
-            </Route>
             <Route exact path="/profile">
               {this.state.user ? <ProfilePage /> : <Login />}
+            </Route>
+            <Route exact path="/register">
+              {this.state.user ? <HomePage /> : <Register />}
             </Route>
           </Switch>
         </Router>
